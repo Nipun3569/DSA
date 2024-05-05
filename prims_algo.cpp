@@ -37,6 +37,7 @@ vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pa
        int u;
       
       //find the min vali node
+       //we can  replace this by minheap priority queueu as it find minimum element in O(1)
        for(int v=1;v<=n;v++){
            if(mst[v]==false&&key[v]<mini){
                u=v;
