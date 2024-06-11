@@ -6,7 +6,7 @@ int add(int a,int b){
 }
 
 int mul(int a,int b){
-    return ( (a%MOD) * (b%MOD) )%MOD;
+    return ( (a%MOD)* 1LL * (b%MOD) )%MOD;
 }
 
 
