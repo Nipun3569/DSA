@@ -10,7 +10,7 @@ int mul(int a,int b){
 }
 
 
-int solveMem(int n,int k,vector<int> dp){
+int solveMem(int n,int k,vector<int>& dp){
     if(n==1){
         return k;
     }
