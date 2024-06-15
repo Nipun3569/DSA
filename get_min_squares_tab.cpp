@@ -7,7 +7,7 @@ int solveTab(int n){
 	    for(int i=1;i<=n;i++){
 	        for(int j=1;j*j<=n;j++){
 	            if(i-j*j>=0){
-	            dp[i]=min(dp[i],dp[i-j*j]);
+	            dp[i]=min(dp[i],1+dp[i-j*j]);
 	            }
 	        }
 	    }
@@ -16,5 +16,6 @@ int solveTab(int n){
 	int MinSquares(int n)
 	{
 	    vector<int> dp(n+1,-1);
-	    return solveMem(n,dp);
+	    return solveTab(n);
 	}
+};
