@@ -10,7 +10,7 @@ using namespace std;
 class Solution{
 public:
 
-    int solve(vector<vector<int>> mat,int i,int j,int &maxi){
+    int solve(vector<vector<int>> &mat,int i,int j,int &maxi){
         //base case
         if(i>=mat.size() || j>=mat[0].size()){
             return 0;
