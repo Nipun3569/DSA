@@ -1,3 +1,4 @@
+
 int solveMem(int index,int operationNo, int k,vector<int>& prices,vector<vector<int>>& dp){
     if(index==prices.size()){
         return 0;
@@ -12,12 +13,12 @@ int solveMem(int index,int operationNo, int k,vector<int>& prices,vector<vector<
     int profit=0;
     if(operationNo%2==0){
         //buy allowed
-        int buyKaro=-prices[index]+solve(index+1,operationNo+1,k,prices);
-        int skipKaro=0+solve(index+1,operationNo,k,prices);
+        int buyKaro=-prices[index]+solveMem(index+1,operationNo+1,k,prices,dp);
+        int skipKaro=0+solveMem(index+1,operationNo,k,prices,dp);
         profit=max(buyKaro,skipKaro);
     }else{
-        int sellKaro=prices[index]+solve(index+1,operationNo+1,k,prices);
-        int skipKaro=0+solve(index+1,operationNo,k,prices);
+        int sellKaro=prices[index]+solveMem(index+1,operationNo+1,k,prices,dp);
+        int skipKaro=0+solveMem(index+1,operationNo,k,prices,dp);
         profit=max(sellKaro,skipKaro);
     }
     return dp[index][operationNo]=profit;
