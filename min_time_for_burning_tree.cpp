@@ -1,170 +1,83 @@
-//{ Driver Code Starts
-//Initial Template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-struct Node {
-    int data;
-    Node *left;
-    Node *right;
-
-    Node(int val) {
-        data = val;
-        left = right = NULL;
-    }
-};
-
-
-Node *buildTree(string str) {
-    // Corner Case
-    if (str.length() == 0 || str[0] == 'N')
-        return NULL;
-
-    // Creating vector of strings from input
-    // string after spliting by space
-    vector<string> ip;
-
-    istringstream iss(str);
-    for (string str; iss >> str;)
-        ip.push_back(str);
-
-    // Create the root of the tree
-    Node *root = new Node(stoi(ip[0]));
-
-    // Push the root to the queue
-    queue<Node *> queue;
-    queue.push(root);
-
-    // Starting from the second element
-    int i = 1;
-    while (!queue.empty() && i < ip.size()) {
-
-        // Get and remove the front of the queue
-        Node *currNode = queue.front();
-        queue.pop();
-
-        // Get the current Node's value from the string
-        string currVal = ip[i];
-
-        // If the left child is not null
-        if (currVal != "N") {
-
-            // Create the left child for the current Node
-            currNode->left = new Node(stoi(currVal));
-
-            // Push it to the queue
-            queue.push(currNode->left);
-        }
-
-        // For the right child
-        i++;
-        if (i >= ip.size())
-            break;
-        currVal = ip[i];
-
-        // If the right child is not null
-        if (currVal != "N") {
-
-            // Create the right child for the current Node
-            currNode->right = new Node(stoi(currVal));
-
-            // Push it to the queue
-            queue.push(currNode->right);
-        }
-        i++;
-    }
-
-    return root;
-}
-
-
-// } Driver Code Ends
-//User function Template for C++
-
-/*
-struct Node {
-    int data;
-    Node *left;
-    Node *right;
-
-    Node(int val) {
-        data = val;
-        left = right = NULL;
-    }
-};
-*/
 class Solution {
   public:
-  //create mapping and return target node
-   Node* createParentMapping(Node* root, int target, map<Node*, Node*>& nodetoparent) {
-        Node* result = NULL;
-
+  
+ //create mapping
+ //retrn target node
+    Node* createParentmapping(Node* root,map<Node*,Node*> &nodeToparent,int target){
+        Node* result=NULL;
+        
+        //level order traversal
         queue<Node*> q;
-
+        nodeToparent[root]=NULL;
+        
         q.push(root);
-
-        nodetoparent[root] = NULL;
-        while (!q.empty()) {
-            Node* front = q.front();
+        while(!q.empty()){
+            Node* frontNode=q.front();
+            
             q.pop();
-
-            if (front->data == target) {
-                result = front;
+            
+            if(frontNode->data==target){
+                return frontNode;
             }
-
-            if (front->left) {
-                nodetoparent[front->left] = front;
-                q.push(front->left);
+            
+            if(frontNode->left){
+                nodeToparent[frontNode->left]=frontNode;
+                q.push(frontNode->left);
             }
-            if (front->right) {
-                nodetoparent[front->right] = front;
-                q.push(front->right);
+            if(frontNode->right){
+                nodeToparent[frontNode->right]=frontNode;
+                q.push(frontNode->right);
             }
+            
         }
-        return result;
+        
+        return NULL;
     }
-    int burntree(Node* root, map<Node*, Node*>& nodetoparent, Node* targetnode) {
-        map<Node*, bool> visited;
-
+    
+    int burnTree(Node* root,map<Node*,Node*> &nodeToparent){
+        map<Node*,bool> visited;
         queue<Node*> q;
-
-        q.push(targetnode);
-        visited[targetnode] = true;
-        int ans = -1;
-        bool flag = 0;
-        // if addition is done then it is marked 1
-        while (!q.empty()) {
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                // process neighboring node
-
-                Node* front = q.front();
+        int ans=0;
+        q.push(root);
+        visited[root]=true;
+        
+        while(!q.empty()){
+            //to check wheher addition happened or not
+            
+            bool flag =0;
+            int size=q.size();
+            
+            for(int i=0;i<size;i++){
+                //processing neighbouring nodes
+                
+                Node* front=q.front();
                 q.pop();
-
-                if (front->left && !visited[front->left]) {
-                    flag = 1;
+                
+                if(front->left && !visited[front->left]){
+                    flag=1;
                     q.push(front->left);
-
-                    visited[front->left] = 1;
+                    visited[front->left]=true;
                 }
-
-                if (front->right && !visited[front->right]) {
-                    flag = 1;
+                
+                if(front->right && !visited[front->right]){
+                    flag=1;
                     q.push(front->right);
-                    visited[front->right] = 1;
+                    visited[front->right]=true;
                 }
-
-                if (nodetoparent[front] && !visited[nodetoparent[front]]) {
-                    flag = 1;
-                    q.push(nodetoparent[front]);
-                    visited[nodetoparent[front]] = 1;
+                
+                if(nodeToparent[front]!=NULL && !visited[nodeToparent[front]]){
+                    flag =1;
+                    q.push(nodeToparent[front]);
+                    visited[nodeToparent[front]]=true;
                 }
+               
             }
-            if (flag == 1) {
-                ans++;
-            }
+         if(flag==1){
+                    ans++;
+                }
+            
         }
+        
         return ans;
     }
     int minTime(Node* root, int target) 
@@ -175,40 +88,12 @@ class Solution {
         //step3 burn the tree in min time
         
         
+        map<Node*,Node*> nodeToparent;
+        Node* targetNode=createParentmapping(root,nodeToparent,target);
         
-         map<Node*, Node*> nodetoparent;
-        Node* targetNode = createParentMapping(root, target, nodetoparent);
-
-        int ans = burntree(root, nodetoparent, targetNode);
+         int ans=burnTree(targetNode,nodeToparent);
         return ans;
+        
+        
     }
 };
-
-//{ Driver Code Starts.
-
-int main() 
-{
-    int tc;
-    scanf("%d ", &tc);
-    while (tc--) 
-    {    
-        string treeString;
-        getline(cin, treeString);
-        // cout<<treeString<<"\n";
-        int target;
-        cin>>target;
-        // cout<<target<<"\n";
-
-        Node *root = buildTree(treeString);
-        Solution obj;
-        cout<<obj.minTime(root, target)<<"\n"; 
-
-        cin.ignore();
-
-    }
-
-
-    return 0;
-}
-
-// } Driver Code Ends
