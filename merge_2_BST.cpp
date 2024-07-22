@@ -241,7 +241,7 @@ TreeNode *sortedLLtoBST(TreeNode *&head, int n){
    TreeNode* root=head;
 
    root->left=left;
-
+   head=head->next;
    //roght subtree
    TreeNode* right=sortedLLtoBST(head, n-n/2-1);
 
