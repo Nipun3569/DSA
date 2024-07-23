@@ -44,6 +44,7 @@ class heap{
 			}
 			//step 1: put last element into 1st index
 			arr[1]=arr[size];
+			// step2 remove last element
 			size--;
 			
 			//take root node to its correct position
