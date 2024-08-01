@@ -39,6 +39,7 @@ class Trie{
 		TrieNode* child;
 		//present
 		if(root->children[index]!=NULL){
+			//aage badh jao
 			child=root->children[index];
 		}
 		else{
