@@ -4,14 +4,14 @@ string longestCommonPrefix(vector<string> &arr, int n)
 {  string ans="";
     //for traversing all characters of first string 
     for(int i=0;i<arr[0].length() ;i++){
-    char ch=arr[0][i];
+    char ch=arr[0][i];// 0 string ka ith character
     bool match=true;
    //for remaining strings
    //for comparing character with rest of the strings
     for(int j=1;j<n;j++){
     
     //not match
-    if(arr[j].size()<i || ch!=arr[j][i]){
+    if(arr[j].size()<i || ch!=arr[j][i]){//j string ka ith character
         match=false;
         break;
     }
