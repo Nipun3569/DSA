@@ -52,6 +52,7 @@ class Solution
     int longestSubsequence(int n, int a[])
     {
        //currindex=0; previndex=-1
+        // curr is going from 0 to n and prev is going from - to n so for prev is n+1
        vector<vector<int>> dp(n,vector<int>(n+1,-1));
        return solveMem(n,a,0,-1,dp);
     }
